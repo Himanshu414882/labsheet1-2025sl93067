@@ -18,27 +18,23 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                echo 'Running calculator tests...'
+    steps {
+        echo 'Running calculator tests...'
 
-                // Example Python test execution
-                sh '''
-                echo "Testing calculator functions"
+        sh '''
+        python3 - <<EOF
+import calculator
 
-                python3 - <<EOF
-def add(a, b): return a + b
-def sub(a, b): return a - b
-def mul(a, b): return a * b
-def div(a, b): return a / b
+assert calculator.add(2,3) == 5
+assert calculator.sub(5,2) == 3
+assert calculator.mul(3,4) == 12
+assert calculator.div(10,2) == 5
 
-print(add(2,3))
-print(sub(5,2))
-print(mul(3,4))
-print(div(10,2))
+print("All tests passed!")
 EOF
-                '''
-            }
-        }
+        '''
+    }
+}
 
         stage('Deploy') {
             steps {
